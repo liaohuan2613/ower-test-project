@@ -30,7 +30,7 @@ public class RebuildTagsApplication {
 
     private static Logger logger = LoggerFactory.getLogger(RebuildTagsApplication.class);
 
-    private static ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 4, 0,
+    private static ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0,
             TimeUnit.MINUTES, new LinkedBlockingQueue<>());
 
     public static void main(String[] args) {
@@ -56,14 +56,16 @@ public class RebuildTagsApplication {
                 restTemplate = new RestTemplate();
                 restTemplateThreadLocal.set(restTemplate);
             }
-            SqlRowSet rowSet = jdbcTemplate.queryForRowSet("select\n" +
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet("select \n" +
                     " title, content,'快讯' category, NOTICE_TYPE block, NOTICE_DATE postDate\n" +
-                    "from\n" +
+                    " from\n" +
                     " Eastmoney_notice\n" +
-                    "where\n" +
+                    " where\n" +
                     " NOTICE_DATE >= '2019-06-03'\n" +
                     " and\n" +
                     " NOTICE_DATE < '2019-06-10'\n" +
+                    " and title not in ( select title from all_eastmoney_tags_v3 " +
+                    " UNION ALL (select title from all_eastmoney_tags_v1 where origCategory = '快讯'))" +
                     " limit " + (page * size) + "," + size);
 
             List<Document> resultMapList = new ArrayList<>();
@@ -98,7 +100,7 @@ public class RebuildTagsApplication {
                 resultMapList.add(tempMap);
             }
 
-            jdbcTemplate.batchUpdate("insert into all_eastmoney_tags_v3(title,content,origCategory,origSubcategory," +
+            jdbcTemplate.batchUpdate("insert into all_eastmoney_tags_v4(title,content,origCategory,origSubcategory," +
                             "createDate,postDate,firstCategory,autoTags,showTags) values(?,?,?,?,?,?,?,?,?)",
                     new BatchPreparedStatementSetter() {
                         @Override

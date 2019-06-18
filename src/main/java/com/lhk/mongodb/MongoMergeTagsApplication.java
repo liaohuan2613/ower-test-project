@@ -7,47 +7,76 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static com.lhk.common.CommonFunctions.mongoTemplateThreadLocal;
 
 public class MongoMergeTagsApplication {
+
+    private static ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 4, 0,
+            TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+
+    private static String[] tagCategories = new String[]{"stock", "industry", "concept", "news", "region"};
+
     public static void main(String[] args) {
-        findTags(0, 10);
+        for (int i = 0; i < 181; i++) {
+            findTags(i, 1000);
+        }
     }
 
     private static void findTags(int page, int size) {
-        MongoTemplate mongoTemplate = mongoTemplateThreadLocal.get();
-        if (mongoTemplate == null) {
-            mongoTemplate = MongoTemplateApplication.getMongoTemplate();
-            mongoTemplateThreadLocal.set(mongoTemplate);
-        }
-        MongoCollection<Document> article = mongoTemplate.getCollection("Article_201905");
-        Document queryDoc = new Document("stockWeights", new Document("$gt", 80));
-        MongoCursor<Document> iterator = article.find(queryDoc).skip(page * size).limit(size).iterator();
-        while (iterator.hasNext()) {
-            Document document = iterator.next();
-            ArrayList<Object> stockCodes = document.get("stockCodes", new ArrayList<>());
-            ArrayList<Object> stockNames = document.get("stockNames", new ArrayList<>());
-            ArrayList<Object> stockWeights = document.get("stockWeights", new ArrayList<>());
-            List<Document> tagList = new ArrayList<>();
-            for (int i = 0; i < stockCodes.size(); i++) {
-                Document tempDoc = new Document();
-                tempDoc.put("tagCode", stockCodes.get(i));
-                tempDoc.put("tagName", stockNames.get(i));
-                tempDoc.put("weight", stockWeights.get(i));
-                tagList.add(tempDoc);
+        executor.execute(() -> {
+            MongoTemplate mongoTemplate = mongoTemplateThreadLocal.get();
+            if (mongoTemplate == null) {
+                mongoTemplate = MongoTemplateApplication.getMongoTemplate();
+                mongoTemplateThreadLocal.set(mongoTemplate);
             }
-            Document firstDoc = new Document();
-            firstDoc.put("title", document.getString("title"));
-            firstDoc.put("content", document.getString("content"));
-            firstDoc.put("date", document.getString("date"));
-            firstDoc.put("time", document.getString("time"));
-            firstDoc.put("source", document.getString("source"));
-            firstDoc.put("nature", document.getString("nature"));
-            firstDoc.put("summary", document.getString("summary"));
-            firstDoc.put("autoTags", tagList);
-            mongoTemplate.getCollection("Article_201905_result").insertOne(firstDoc);
-        }
+            MongoCollection<Document> article = mongoTemplate.getCollection("Article_201905");
+            Document queryDoc = new Document();
+            List<Document> insertList = new ArrayList<>();
+            for (Document document : article.find(queryDoc).skip(page * size).limit(size)) {
+                List<Document> tagList = new ArrayList<>();
+                for (String tagCategory : tagCategories) {
+                    ArrayList<Object> codes = document.get(tagCategory + "Codes", new ArrayList<>());
+                    ArrayList<Object> names = document.get(tagCategory + "Names", new ArrayList<>());
+                    ArrayList<Object> weights = document.get(tagCategory + "Weights", new ArrayList<>());
+                    ArrayList<Object> sources = document.get(tagCategory + "Sources", new ArrayList<>());
+                    for (int i = 0; i < codes.size(); i++) {
+                        Document tempDoc = new Document();
+                        tempDoc.put("tagCode", codes.get(i));
+                        if (!names.isEmpty()) {
+                            tempDoc.put("tagName", names.get(i));
+                        }
+                        if (!weights.isEmpty()) {
+                            tempDoc.put("weight", weights.get(i));
+                        }
+                        if (!sources.isEmpty()) {
+                            tempDoc.put("source", sources.get(i));
+                        }
+                        tempDoc.put("category", tagCategory.toUpperCase());
+                        tagList.add(tempDoc);
+                    }
+                }
+
+                Document firstDoc = new Document();
+                firstDoc.put("newsId", document.getString("newsId"));
+                firstDoc.put("title", document.getString("title"));
+                firstDoc.put("content", document.getString("content"));
+                firstDoc.put("date", document.getString("date"));
+                firstDoc.put("time", document.getString("time"));
+                firstDoc.put("isDup", document.getBoolean("isDup"));
+                firstDoc.put("supplier", document.getString("supplier"));
+                firstDoc.put("source", document.getString("source"));
+                firstDoc.put("nature", document.getString("nature"));
+                firstDoc.put("summary", document.getString("summary"));
+                firstDoc.put("autoTags", tagList);
+                firstDoc.put("showTags", document.get("showTags"));
+                insertList.add(firstDoc);
+            }
+            mongoTemplate.getCollection("Article_201905_result").insertMany(insertList);
+        });
     }
 
 }
