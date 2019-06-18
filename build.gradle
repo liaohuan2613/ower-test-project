@@ -1,0 +1,50 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'java'
+}
+
+group 'com.lhk'
+version '0.0.0-SNAPSHOT'
+
+apply plugin: 'java'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+apply plugin: 'maven'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+
+def releasesRepoUrl = 'http://203.156.205.101:10188/repository/internal/'
+def snapshotsRepoUrl = 'http://203.156.205.101:10188/repository/snapshots/'
+if (project.hasProperty('useInternalIp') && useInternalIp == '1') {
+    releasesRepoUrl = 'http://10.104.15.101:8088/repository/internal/'
+    snapshotsRepoUrl = 'http://10.104.15.101:8088/repository/snapshots/'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url releasesRepoUrl }
+    maven { url snapshotsRepoUrl }
+    jcenter()
+}
+
+dependencies {
+    compile 'tech.deepq:market-text-classify:0.0.7-SNAPSHOT'
+    compile 'tech.deepq:column-classify:0.0.4-SNAPSHOT'
+    compile 'tech.deepq:nlp-classify-preprocess:0.0.9-SNAPSHOT'
+    compile 'fasttext:fasttext:0.0.1-SNAPSHOT'
+    compile 'org.tensorflow:tensorflow:1.12.0'
+    compile('tech.deepq:keywords-extractor:1.0.6-SNAPSHOT')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'mysql:mysql-connector-java:8.0.13'
+
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
