@@ -21,6 +21,9 @@ import java.util.concurrent.TimeUnit;
 
 import static com.lhk.common.CommonFunctions.*;
 
+/**
+ * @author LHK
+ */
 public class MongoTemplateApplication {
 
     private static ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 2, 0,
@@ -110,7 +113,7 @@ public class MongoTemplateApplication {
     }
 
     public static MongoTemplate getMongoTemplate() {
-        return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("192.168.11.89", 27017),
+        return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("127.0.0.1", 27017),
                 "GTJA"));
     }
 }

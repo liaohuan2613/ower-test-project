@@ -98,9 +98,9 @@ public class CommonFunctions {
         return StringUtils.join(words, " ").toUpperCase();
     }
 
-    public static Map<String, Object> makeTags(String tagApi, Map<String, Object> requestMap, RestTemplate restTemplate) {
+    public static Map<String, Object> postResult(String api, Map<String, Object> requestMap, RestTemplate restTemplate) {
         try {
-            URI tagUri = UriComponentsBuilder.fromUriString(tagApi).build().encode().toUri();
+            URI tagUri = UriComponentsBuilder.fromUriString(api).build().encode().toUri();
             if (restTemplate.postForEntity(tagUri, requestMap, Object.class).getBody() instanceof Map) {
                 Map<String, Object> objectMap = (Map<String, Object>) restTemplate.postForEntity(tagUri, requestMap, Object.class).getBody();
                 if (objectMap.get("result") instanceof Map) {
@@ -110,7 +110,22 @@ public class CommonFunctions {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new HashMap<>();
+        return new HashMap<>(1);
+    }
+
+    public static List<Object> postResultList(String api, Map<String, Object> requestMap, RestTemplate restTemplate) {
+        try {
+            URI tagUri = UriComponentsBuilder.fromUriString(api).build().encode().toUri();
+            if (restTemplate.postForEntity(tagUri, requestMap, Object.class).getBody() instanceof Map) {
+                Map<String, Object> objectMap = (Map<String, Object>) restTemplate.postForEntity(tagUri, requestMap, Object.class).getBody();
+                if (objectMap.get("result") instanceof List) {
+                    return (List<Object>) objectMap.get("result");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public static void mergeList(List<Document> rootList, List<String> marketTextList, List<List<Map.Entry<String, Double>>> marketEntryList,

@@ -7,15 +7,10 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-import preprocess.clf.column.ColumnPreprocess;
-import preprocess.clf.market.MarketPreprocess;
 
-import java.net.URI;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -82,7 +77,7 @@ public class RebuildTagsApplication {
                 tempMap.put("title", title);
                 tempMap.put("content", content);
                 tempMap.put("mktCd", "*");
-                Map<String, Object> responseMap = makeTags("http://127.0.0.1:7003/rest/block/general-analyse-recommend",
+                Map<String, Object> responseMap = postResult("http://127.0.0.1:7003/rest/block/general-analyse-recommend",
                         tempMap, restTemplate);
                 List<Map<String, Object>> showTags = (List<Map<String, Object>>) responseMap.get("showTags");
                 String firstCategory = "";
