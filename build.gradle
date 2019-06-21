@@ -43,6 +43,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'mysql:mysql-connector-java:8.0.13'
 
+    implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
