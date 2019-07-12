@@ -1,14 +1,12 @@
 package com.lhk.mongodb;
 
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
 import static com.lhk.common.CommonFunctions.postResult;
-import static com.lhk.common.CommonFunctions.postResultList;
 
 public class MongoFindSameApplication {
 
@@ -21,7 +19,7 @@ public class MongoFindSameApplication {
     private static void find() {
         MongoTemplate mongoTemplate = MongoTemplateApplication.getMongoTemplate();
         Map<String, Document> clsMap = new HashMap<>(1000);
-        for (Document document : mongoTemplate.getCollection("ArticleGtjaCls").find()) {
+        for (Document document : mongoTemplate.getCollection("ArticleXgb").find()) {
             Map<String, Object> requestMap = new HashMap<>(5);
             requestMap.put("id", document.getString("newsId"));
             requestMap.put("title", document.getString("title"));
@@ -30,14 +28,14 @@ public class MongoFindSameApplication {
             document.remove("_id");
             clsMap.put(document.getString("newsId"), document);
             requestMap.put("database", 13);
-            postResult("http://127.0.0.1:5002/api/deduplication", requestMap, restTemplate);
+            postResult("http://192.168.11.89:5002/api/deduplication", requestMap, restTemplate);
         }
 
 
         List<Document> documentList = new ArrayList<>();
 
         int countNum = 0;
-        for (Document document : mongoTemplate.getCollection("ArticleXgb").find()) {
+        for (Document document : mongoTemplate.getCollection("ArticleGtjaCls").find()) {
             Map<String, Object> requestMap = new HashMap<>(5);
             requestMap.put("id", document.getString("newsId"));
             requestMap.put("title", document.getString("title"));
@@ -46,7 +44,7 @@ public class MongoFindSameApplication {
             document.remove("_id");
             Set<String> keySet = document.keySet();
             requestMap.put("database", 13);
-            Map<String, Object> postMap = postResult("http://127.0.0.1:5002/api/deduplication", requestMap, restTemplate);
+            Map<String, Object> postMap = postResult("http://192.168.11.89:5002/api/deduplication", requestMap, restTemplate);
             boolean flag = false;
             if ("true".equals(postMap.get("isDup").toString())) {
                 List<Map<String, Object>> dupIds = (List<Map<String, Object>>) postMap.get("dupIds");
@@ -72,6 +70,6 @@ public class MongoFindSameApplication {
                 documentList.add(document);
             }
         }
-        mongoTemplate.getCollection("ArticleXgbClsResultV3").insertMany(documentList);
+        mongoTemplate.getCollection("ArticleClsXgbResultV4").insertMany(documentList);
     }
 }

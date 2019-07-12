@@ -149,9 +149,9 @@ public class JdbcTemplateApplication {
     public static JdbcTemplate getJdbcTemplate() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setJdbcUrl("jdbc:mysql://118.184.215.7:12306/pyspider_resultdb?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
-        dataSource.setUsername("pyspider");
-        dataSource.setPassword("strzsJQWpiuw9oKB");
+        dataSource.setJdbcUrl("jdbc:mysql://192.168.11.89:3306/ZHONGXINJIANTOU?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
+        dataSource.setUsername("root");
+        dataSource.setPassword("password");
         return new JdbcTemplate(dataSource);
     }
 }

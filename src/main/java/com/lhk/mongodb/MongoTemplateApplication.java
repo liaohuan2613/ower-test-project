@@ -113,7 +113,7 @@ public class MongoTemplateApplication {
     }
 
     public static MongoTemplate getMongoTemplate() {
-        return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("127.0.0.1", 27017),
+        return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("192.168.11.89", 27017),
                 "GTJA"));
     }
 }

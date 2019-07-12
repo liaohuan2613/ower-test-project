@@ -6,18 +6,18 @@ import java.util.regex.Pattern;
 
 public class HTMLFormatUtils {
     // 定义script
-    // 的正则表达式{或<script[^>]*?>[//s//S]*?<///script> 清除所有的script标签以及内容
+    /**  正则表达式{或<script[^>]*?>[//s//S]*?<///script> 清除所有的script标签以及内容 */
     private final static Pattern SCRIPT_PATTERN = Pattern.compile("<[//s]*?script[^>]*?>[//s//S]*?<[//s]*?///[//s]*?script[//s]*?>");
 
     // 定义style
-    // 的正则表达式{或<style[^>]*?>[//s//S]*?<///style> 清除所有的style标签以及内容
+    /** 正则表达式{或<style[^>]*?>[//s//S]*?<///style> 清除所有的style标签以及内容 */
     private final static Pattern STYLE_PATTERN = Pattern.compile("<[//s]*?style[^>]*?>[//s//S]*?<[//s]*?///[//s]*?style[//s]*?>");
 
     private final static Pattern ENTER_PATTERN = Pattern.compile("(\\\\r|\r|\\\\n|\n)");
 
     private final static Pattern HTML_PATTERN_PAGE = Pattern.compile("(</p>|<br/>|<br>|</br>)");
     private final static Pattern MORE_ENTER_PAGE = Pattern.compile("[\n]+");
-    // 定义html的的正则表达式，清除html标签，html的注解以及html的空格换行换页符
+    /** 正则表达式，清除html标签，html的注解以及html的空格换行换页符 */
     private final static Pattern HTML_PATTERN_1 = Pattern.compile("<[^<>]+>");
     private final static Pattern HTML_PATTERN_2 = Pattern.compile("<!--[^<>]+-->");
     private final static Pattern TITLE_PATTERN = Pattern.compile("^【.*.】.*");
