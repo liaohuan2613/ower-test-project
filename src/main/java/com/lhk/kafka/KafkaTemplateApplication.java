@@ -11,9 +11,14 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KafkaTemplateApplication {
+
+    private static ThreadPoolExecutor executor = new ThreadPoolExecutor(50, 50, 0 , TimeUnit.MINUTES, new LinkedBlockingQueue<>());
 
     private static AtomicBoolean flag = new AtomicBoolean(true);
 
@@ -37,11 +42,22 @@ public class KafkaTemplateApplication {
 
     public static void readKafkaMsg() {
         KafkaConsumer<String, String> kafkaListener = getKafkaListener();
-        kafkaListener.subscribe(Collections.singletonList("article-with-fund-tags"));
+        kafkaListener.subscribe(Collections.singletonList("origin-owl"));
         while (flag.get()) {
-            ConsumerRecords<String, String> consumerRecords = kafkaListener.poll(Duration.of(1, ChronoUnit.SECONDS));
-            for (ConsumerRecord<String, String> record : consumerRecords) {
-                System.out.println(record.value());
+            long startTime = System.currentTimeMillis();
+            if (executor.getActiveCount() < executor.getCorePoolSize() - 1) {
+                ConsumerRecords<String, String> consumerRecords = kafkaListener.poll(Duration.of(1, ChronoUnit.SECONDS));
+                System.out.println("fetch time is " + (System.currentTimeMillis() - startTime));
+                for (ConsumerRecord<String, String> record : consumerRecords) {
+                    executor.execute(() -> {
+                        try {
+                            Thread.sleep(100000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(record.value());
+                    });
+                }
             }
         }
     }
@@ -56,11 +72,12 @@ public class KafkaTemplateApplication {
 
     public static KafkaConsumer<String, String> getKafkaListener() {
         KafkaProperties.Consumer consumer = new KafkaProperties.Consumer();
-//        consumer.setBootstrapServers(Collections.singletonList("203.156.205.102:9092"));
+//        consumer.setBootstrapServers(Collections.singletonList("127.0.0.1:9092"));
         consumer.setBootstrapServers(Arrays.asList("47.96.26.149:9092", "47.96.27.99:9092", "47.96.3.207:9092"));
-        consumer.setGroupId("article-with-fund-tags-test");
+        consumer.setGroupId("origin-owl-single_test");
         consumer.setAutoOffsetReset("earliest");
-        consumer.setEnableAutoCommit(true);
+        consumer.setMaxPollRecords(100);
+        consumer.setEnableAutoCommit(false);
         consumer.setAutoCommitInterval(Duration.ofSeconds(15));
         consumer.getProperties().put("security.protocol", "SASL_PLAINTEXT");
         consumer.getProperties().put("sasl.mechanism", "PLAIN");

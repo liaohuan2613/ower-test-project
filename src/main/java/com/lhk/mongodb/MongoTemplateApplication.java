@@ -3,7 +3,9 @@ package com.lhk.mongodb;
 import column.clf.ColumnClfApi;
 import com.lhk.util.HTMLFormatUtils;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.internal.connection.ServerAddressHelper;
 import market.text.clf.MarketTextClfApi;
 import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,6 +15,7 @@ import preprocess.clf.market.MarketPreprocess;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -113,7 +116,8 @@ public class MongoTemplateApplication {
     }
 
     public static MongoTemplate getMongoTemplate() {
-        return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("192.168.11.89", 27017),
-                "GTJA"));
+        MongoCredential mongoCredential = MongoCredential.createCredential("root", "TEBON", "#FGJoW^A3u*SSTbP".toCharArray());
+        return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(ServerAddressHelper
+                .createServerAddress("203.156.205.101", 10917), Collections.singletonList(mongoCredential)), "TEBON"));
     }
 }

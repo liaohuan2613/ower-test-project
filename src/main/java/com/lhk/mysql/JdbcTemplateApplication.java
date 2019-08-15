@@ -149,9 +149,27 @@ public class JdbcTemplateApplication {
     public static JdbcTemplate getJdbcTemplate() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setJdbcUrl("jdbc:mysql://192.168.11.89:3306/ZHONGXINJIANTOU?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
+        dataSource.setJdbcUrl("jdbc:mysql://47.96.3.207:3306/NEWS_FEED?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
+        dataSource.setUsername("canal");
+        dataSource.setPassword("ui#xctk!mzOc$aOC");
+        return new JdbcTemplate(dataSource);
+    }
+
+    public static JdbcTemplate getSpiderJdbcTemplate() {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://118.184.215.7:12306/pyspider_resultdb?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
+        dataSource.setUsername("pyspider");
+        dataSource.setPassword("strzsJQWpiuw9oKB");
+        return new JdbcTemplate(dataSource);
+    }
+
+    public static JdbcTemplate getLocalJdbcTemplate() {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/gorich_test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
         dataSource.setUsername("root");
-        dataSource.setPassword("password");
+        dataSource.setPassword("password1!");
         return new JdbcTemplate(dataSource);
     }
 }
