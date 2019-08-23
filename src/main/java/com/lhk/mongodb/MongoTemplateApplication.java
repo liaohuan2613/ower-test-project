@@ -116,8 +116,14 @@ public class MongoTemplateApplication {
     }
 
     public static MongoTemplate getMongoTemplate() {
-        MongoCredential mongoCredential = MongoCredential.createCredential("root", "TEBON", "#FGJoW^A3u*SSTbP".toCharArray());
+        MongoCredential mongoCredential = MongoCredential.createCredential("root", "NET", "1$uYtHf7equd1$#J".toCharArray());
         return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(ServerAddressHelper
-                .createServerAddress("203.156.205.101", 10917), Collections.singletonList(mongoCredential)), "TEBON"));
+                .createServerAddress("47.96.26.118", 27017), Collections.singletonList(mongoCredential)), "NET"));
+    }
+
+    public static MongoTemplate getTestMongoTemplate() {
+        MongoCredential mongoCredential = MongoCredential.createCredential("sentiment", "sentiment", "sentiment".toCharArray());
+        return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(ServerAddressHelper
+                .createServerAddress("10.10.20.172", 12001), Collections.singletonList(mongoCredential)), "sentiment"));
     }
 }
