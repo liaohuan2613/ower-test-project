@@ -51,6 +51,15 @@ public class HTMLFormatUtils {
         return value;
     }
 
+    public static String clearOnlyHtml(String htmlStr) {
+        htmlStr = SCRIPT_PATTERN.matcher(htmlStr).replaceAll("");
+        htmlStr = STYLE_PATTERN.matcher(htmlStr).replaceAll("");
+        htmlStr = ENTER_PATTERN.matcher(htmlStr).replaceAll("");
+        htmlStr = HTML_PATTERN_1.matcher(htmlStr).replaceAll("");
+        htmlStr = HTML_PATTERN_2.matcher(htmlStr).replaceAll("");
+        return htmlStr;
+    }
+
     public static String clearTimeHeader(String value) {
         int index = 0;
         boolean existSpecialCharacter = false;

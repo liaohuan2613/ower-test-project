@@ -1,4 +1,4 @@
-package com.lhk.mysql;
+package com.lhk.db;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.client.RestTemplate;

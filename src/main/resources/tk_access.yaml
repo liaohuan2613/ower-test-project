@@ -1,0 +1,6 @@
+system:
+  - company_id: THINKIVE
+    system_id:  SJ1
+    system_version: 1.0.0
+    sign_type: MD5
+    sign_key: 243D73C8D635A0A3DB3C0686D9C10D1A

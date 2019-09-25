@@ -1,4 +1,4 @@
-package com.lhk.mysql;
+package com.lhk.db;
 
 import com.lhk.mongodb.MongoTemplateApplication;
 import com.mongodb.BasicDBObject;

@@ -1,4 +1,4 @@
-package com.lhk.mysql;
+package com.lhk.db;
 
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static com.lhk.common.CommonFunctions.*;
-import static com.lhk.mysql.JdbcTemplateApplication.getJdbcTemplate;
+import static com.lhk.db.JdbcTemplateApplication.getJdbcTemplate;
 import static com.lhk.util.HTMLFormatUtils.filterHtml;
 
 public class RebuildTagsApplication {

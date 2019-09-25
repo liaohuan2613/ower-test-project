@@ -1,4 +1,4 @@
-package com.lhk.mysql;
+package com.lhk.db;
 
 import column.clf.ColumnClfApi;
 import com.lhk.metrics.TimerMetrics;
@@ -155,6 +155,15 @@ public class JdbcTemplateApplication {
         return new JdbcTemplate(dataSource);
     }
 
+    public static JdbcTemplate getPocJdbcTemplate() {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/anxin?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
+        dataSource.setUsername("root");
+        dataSource.setPassword("password1!");
+        return new JdbcTemplate(dataSource);
+    }
+
     public static JdbcTemplate getSpiderJdbcTemplate() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
@@ -170,6 +179,24 @@ public class JdbcTemplateApplication {
         dataSource.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/gorich_test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
         dataSource.setUsername("root");
         dataSource.setPassword("password1!");
+        return new JdbcTemplate(dataSource);
+    }
+
+    public static JdbcTemplate getOracleJdbcTemplate() {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
+        dataSource.setJdbcUrl("jdbc:oracle:thin:@192.168.11.88:1521/ORCL");
+        dataSource.setUsername("grclient");
+        dataSource.setPassword("741UaZJh1yK26h9JgR*I");
+        return new JdbcTemplate(dataSource);
+    }
+
+    public static JdbcTemplate getFhlJdbcTemplate() {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://203.156.205.101:11706/newsAudit?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8");
+        dataSource.setUsername("root");
+        dataSource.setPassword("Mdrz#F(K14(oLcsVd^cH");
         return new JdbcTemplate(dataSource);
     }
 }

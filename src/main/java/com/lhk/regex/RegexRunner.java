@@ -1,6 +1,6 @@
 package com.lhk.regex;
 
-import com.lhk.mysql.JdbcTemplateApplication;
+import com.lhk.db.JdbcTemplateApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.BufferedReader;

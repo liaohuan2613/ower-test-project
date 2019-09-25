@@ -42,6 +42,7 @@ dependencies {
     compile('tech.deepq:keywords-extractor:1.0.6-SNAPSHOT')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'mysql:mysql-connector-java:8.0.13'
+    compile 'com.oracle:ojdbc6:11.2.0.3'
 
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'

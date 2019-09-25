@@ -42,7 +42,7 @@ public class KafkaTemplateApplication {
 
     public static void readKafkaMsg() {
         KafkaConsumer<String, String> kafkaListener = getKafkaListener();
-        kafkaListener.subscribe(Collections.singletonList("fhl.test"));
+        kafkaListener.subscribe(Collections.singletonList("test3"));
         while (flag.get()) {
             long startTime = System.currentTimeMillis();
             if (executor.getActiveCount() < executor.getCorePoolSize() - 1) {
@@ -72,17 +72,16 @@ public class KafkaTemplateApplication {
 
     public static KafkaConsumer<String, String> getKafkaListener() {
         KafkaProperties.Consumer consumer = new KafkaProperties.Consumer();
-        consumer.setBootstrapServers(Collections.singletonList("203.156.205.101:11692"));
+//        consumer.setBootstrapServers(Collections.singletonList("dev.kafka.deepq:11692"));
 //        consumer.setBootstrapServers(Collections.singletonList("203.156.205.102:9092"));
-//        consumer.setBootstrapServers(Collections.singletonList("127.0.0.1:9092"));
+        consumer.setBootstrapServers(Collections.singletonList("127.0.0.1:9092"));
 //        consumer.setBootstrapServers(Arrays.asList("47.96.26.149:9092", "47.96.27.99:9092", "47.96.3.207:9092"));
         consumer.setGroupId("test_test");
-        consumer.setAutoOffsetReset("earliest");
+        consumer.setAutoOffsetReset("latest");
         consumer.setMaxPollRecords(100);
         consumer.setEnableAutoCommit(false);
-        consumer.setAutoOffsetReset("earliest");
         consumer.setAutoCommitInterval(Duration.ofSeconds(15));
-//        consumer.getProperties().put("security.protocol", "SASL_PLAINTEXT");
+//        consumer.getProperties().put("security.protocol", "PLAINTEXT");
 //        consumer.getProperties().put("sasl.mechanism", "PLAIN");
         return new KafkaConsumer<>(consumer.buildProperties());
     }
