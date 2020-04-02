@@ -1,7 +1,6 @@
 package com.lhk.mongodb;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -27,10 +26,9 @@ public class MongoTestApplication {
             }
             basicDBObject.append("date", new BasicDBObject("$gte", "2019-08-" + a).append("$lt", "2019-08-" + b));
             basicDBObject.append("isDup", false);
-            MongoCursor<Document> cursor = testMongoTemplate.getCollection("Article").find(basicDBObject).limit(1).iterator();
-            while (cursor.hasNext()) {
+            for (Document document : testMongoTemplate.getCollection("Article").find(basicDBObject).limit(1)) {
                 count++;
-                Document doc = cursor.next();
+                Document doc = document;
                 System.out.print(doc.getString("title"));
                 if (doc.getString("title").contains("A股")) {
                     System.out.println("===========================" + doc.getString("newsId"));

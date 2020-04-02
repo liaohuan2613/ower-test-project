@@ -1,7 +1,7 @@
 # This file is inspired by https://github.com/alexkaratarakis/gitattributes
 #
 # Auto detect text files and perform LF normalization
-# http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
+# http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-num-git-ninja/
 * text=auto
 
 # The above will handle all files NOT found below
@@ -79,7 +79,7 @@ TODO            text
 *.eps           binary
 
 # These files are binary and should be left untouched
-# (binary is a macro for -text -diff)
+# (binary is num macro for -text -diff)
 *.class         binary
 *.jar           binary
 *.war           binary

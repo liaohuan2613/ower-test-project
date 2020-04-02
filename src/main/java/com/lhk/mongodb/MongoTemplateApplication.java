@@ -122,8 +122,8 @@ public class MongoTemplateApplication {
     }
 
     public static MongoTemplate getTestMongoTemplate() {
-        MongoCredential mongoCredential = MongoCredential.createCredential("sentiment", "sentiment", "sentiment".toCharArray());
+        MongoCredential mongoCredential = MongoCredential.createCredential("root", "TEBON", "#FGJoW^A3u*SSTbP".toCharArray());
         return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(ServerAddressHelper
-                .createServerAddress("10.10.20.172", 12001), Collections.singletonList(mongoCredential)), "sentiment"));
+                .createServerAddress("203.156.205.101", 10917), Collections.singletonList(mongoCredential)), "TEBON"));
     }
 }
