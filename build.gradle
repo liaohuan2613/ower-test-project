@@ -14,13 +14,6 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'idea'
 
-def releasesRepoUrl = 'http://203.156.205.101:10188/repository/internal/'
-def snapshotsRepoUrl = 'http://203.156.205.101:10188/repository/snapshots/'
-if (project.hasProperty('useInternalIp') && useInternalIp == '1') {
-    releasesRepoUrl = 'http://10.104.15.101:8088/repository/internal/'
-    snapshotsRepoUrl = 'http://10.104.15.101:8088/repository/snapshots/'
-}
-
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
@@ -28,18 +21,11 @@ tasks.withType(JavaCompile) {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url releasesRepoUrl }
-    maven { url snapshotsRepoUrl }
     jcenter()
 }
 
 dependencies {
     compile group: 'com.ly.train', name: 'flower.core', version: '1.0.4'
-    compile 'tech.deepq:market-text-classify:0.0.7-SNAPSHOT'
-    compile 'tech.deepq:column-classify:0.0.4-SNAPSHOT'
-    compile 'tech.deepq:nlp-classify-preprocess:0.0.9-SNAPSHOT'
-    compile 'fasttext:fasttext:0.0.1-SNAPSHOT'
-    compile 'org.tensorflow:tensorflow:1.12.0'
     compile('tech.deepq:keywords-extractor:1.0.6-SNAPSHOT')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'mysql:mysql-connector-java:8.0.13'
