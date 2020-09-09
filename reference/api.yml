@@ -1,0 +1,65 @@
+openapi: 3.0.1
+info:
+  title: rec-admin
+  version: 0.0.1
+servers:
+  - url: 'http://localhost:7220/api'
+    description: Development server
+  - url: 'https://localhost:7220/api'
+    description: Development server with TLS Profile
+paths:
+  /rec/info-flow/add-top:
+    parameters: []
+    post:
+      summary: /rec/info-flow/add-top
+      operationId: post-rec-info-flow-add-top
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/RecOpConfigDto.v1.yaml
+      description: 信息流场景-新建置顶
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/RecOpConfigDto.v1.yaml
+  /rec/info-flow/add-single-heavy:
+    parameters: []
+    post:
+      summary: /rec/info-flow/add-single-heavy
+      operationId: post-rec-info-flow-add-single-heavy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/RecOpConfigDto.v1.yaml
+      description: 信息流场景-新建重磅单品
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/RecOpConfigDto.v1.yaml
+  /rec/info-flow/add-column-heavy:
+    post:
+      summary: ''
+      operationId: post-rec-info-flow-add-column-heavy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/RecOpConfigDto.v1.yaml
+      description: 信息流场景-新建重磅栏目
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/RecOpConfigDto.v1.yaml
+components:
+  schemas: {}
