@@ -8,11 +8,11 @@ servers:
   - url: 'https://localhost:7220/api'
     description: Development server with TLS Profile
 paths:
-  /rec/info-flow/add-top:
+  /featured-first/top/add:
     parameters: []
     post:
-      summary: /rec/info-flow/add-top
-      operationId: post-rec-info-flow-add-top
+      summary: /featured-first/top/add
+      operationId: post-featured-first-top-add
       responses:
         '200':
           description: OK
@@ -26,11 +26,11 @@ paths:
           application/json:
             schema:
               $ref: ./models/RecOpConfigDto.v1.yaml
-  /rec/info-flow/add-single-heavy:
+  /featured-first/single-heavy/add:
     parameters: []
     post:
-      summary: /rec/info-flow/add-single-heavy
-      operationId: post-rec-info-flow-add-single-heavy
+      summary: /featured-first/single-heavy/add
+      operationId: post-featured-first-single-heavy-add
       responses:
         '200':
           description: OK
@@ -44,10 +44,10 @@ paths:
           application/json:
             schema:
               $ref: ./models/RecOpConfigDto.v1.yaml
-  /rec/info-flow/add-column-heavy:
+  /featured-first/column-heavy/add:
     post:
-      summary: ''
-      operationId: post-rec-info-flow-add-column-heavy
+      summary: /featured-first/column-heavy/add
+      operationId: post-featured-first-column-heavy-add
       responses:
         '200':
           description: OK
@@ -61,5 +61,6 @@ paths:
           application/json:
             schema:
               $ref: ./models/RecOpConfigDto.v1.yaml
+    parameters: []
 components:
   schemas: {}
