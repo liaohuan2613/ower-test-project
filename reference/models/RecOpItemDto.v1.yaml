@@ -1,0 +1,5 @@
+title: RecOpItem
+type: object
+properties:
+  id:
+    type: string

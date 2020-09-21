@@ -1,0 +1,10 @@
+title: RecItemsSearchRequest
+type: object
+properties:
+  keyword:
+    type: string
+  page:
+    type: integer
+  size:
+    type: integer
+description: 物料信息列表查询

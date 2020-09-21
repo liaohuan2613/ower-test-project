@@ -1,0 +1,8 @@
+title: RecOpConfigSearchRequest
+type: object
+properties:
+  page:
+    type: integer
+  size:
+    type: integer
+description: 信息流推荐列表

@@ -1,0 +1,5 @@
+title: PageQuery
+type: object
+properties:
+  id:
+    type: string

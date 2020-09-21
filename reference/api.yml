@@ -8,11 +8,80 @@ servers:
   - url: 'https://localhost:7220/api'
     description: Development server with TLS Profile
 paths:
-  /featured-first/top/add:
-    parameters: []
+  /rec-op-item/create:
     post:
-      summary: /featured-first/top/add
-      operationId: post-featured-first-top-add
+      summary: /rec-op-item/create
+      operationId: post-rec-op-item-create
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/RecOpItemDto.v1.yaml
+      description: 运营品类-新建
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/RecOpItemDto.v1.yaml
+  /rec-op-item/update:
+    post:
+      summary: /rec-op-item/update
+      operationId: post-rec-op-item-update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/RecOpItemDto.v1.yaml
+      description: 运营品类-更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/RecOpItemDto.v1.yaml
+  '/rec-op-item/detail/{operationId}':
+    parameters:
+      - schema:
+          type: integer
+          format: int64
+        name: operationId
+        in: path
+        required: true
+    get:
+      summary: '/rec-op-item/detail/{operationId}'
+      operationId: get-rec-op-item-detail-operationId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/RecOpItemDto.v1.yaml
+      description: 运营品类-详情
+  /rec-op-item/list:
+    post:
+      summary: /rec-op-item/list
+      operationId: post-rec-op-item-list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/PageQuery.v1.yaml
+      description: 运营品类-列表
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/RecOpItemSearchRequest.v1.yaml
+  /rec-op-config/create:
+    post:
+      summary: /rec-op-config/create
+      operationId: post-rec-op-config-create
       responses:
         '200':
           description: OK
@@ -20,17 +89,16 @@ paths:
             application/json:
               schema:
                 $ref: ./models/RecOpConfigDto.v1.yaml
-      description: 信息流场景-新建置顶
+      description: 信息流场景-新建
       requestBody:
         content:
           application/json:
             schema:
               $ref: ./models/RecOpConfigDto.v1.yaml
-  /featured-first/single-heavy/add:
-    parameters: []
+  /rec-op-config/update:
     post:
-      summary: /featured-first/single-heavy/add
-      operationId: post-featured-first-single-heavy-add
+      summary: /rec-op-config/update
+      operationId: post-rec-op-config-update
       responses:
         '200':
           description: OK
@@ -38,16 +106,23 @@ paths:
             application/json:
               schema:
                 $ref: ./models/RecOpConfigDto.v1.yaml
-      description: 信息流场景-新建重磅单品
+      description: 信息流场景-更新
       requestBody:
         content:
           application/json:
             schema:
               $ref: ./models/RecOpConfigDto.v1.yaml
-  /featured-first/column-heavy/add:
-    post:
-      summary: /featured-first/column-heavy/add
-      operationId: post-featured-first-column-heavy-add
+  '/rec-op-config/detail/{operationId}':
+    parameters:
+      - schema:
+          type: integer
+          format: int64
+        name: operationId
+        in: path
+        required: true
+    get:
+      summary: '/rec-op-config/detail/{operationId}'
+      operationId: get-rec-op-config-detail-operationId
       responses:
         '200':
           description: OK
@@ -55,12 +130,40 @@ paths:
             application/json:
               schema:
                 $ref: ./models/RecOpConfigDto.v1.yaml
-      description: 信息流场景-新建重磅栏目
+      description: 信息流场景-详情
+  /rec-op-config/list:
+    post:
+      summary: ''
+      operationId: post-rec-op-config-list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/PageQuery.v1.yaml
+      description: 信息流场景-列表
       requestBody:
         content:
           application/json:
             schema:
-              $ref: ./models/RecOpConfigDto.v1.yaml
-    parameters: []
+              $ref: ./models/RecOpConfigSearchRequest.v1.yaml
+  /rec-items/list:
+    post:
+      summary: ''
+      operationId: post-rec-items-list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/PageQuery.v1.yaml
+      description: 物料信息列表
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/RecItemsSearchRequest.v1.yaml
 components:
   schemas: {}

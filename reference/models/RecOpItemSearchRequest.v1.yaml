@@ -1,0 +1,7 @@
+title: RecOpItemSearchRequest
+type: object
+properties:
+  page:
+    type: integer
+  size:
+    type: integer
